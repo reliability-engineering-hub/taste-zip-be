@@ -2,7 +2,6 @@ package com.example.tastezip.model;
 
 
 import jakarta.persistence.*;
-import lombok.*;
 
 import java.time.ZonedDateTime;
 
