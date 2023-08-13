@@ -2,8 +2,8 @@ package com.example.tastezip.model;
 
 
 import jakarta.persistence.*;
-import lombok.*;
 
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 
 @Entity
@@ -13,7 +13,7 @@ public class Diary {
 
     @Column(length = 50)
     private String title;
-    private ZonedDateTime eatDate;
+    private LocalDate eatDate;
 
     @ManyToOne
     private Restaurant restaurant;
@@ -30,7 +30,7 @@ public class Diary {
 
     }
 
-    public Diary(String title, ZonedDateTime eatDate, Restaurant restaurant, String content, Long evaluation) {
+    public Diary(String title, LocalDate eatDate, Restaurant restaurant, String content, Long evaluation) {
         // ID 값에 대해 따로 명시하지 않아도 자동으로 생성되는지 -- GeneratedValue와 연관됨.
         this.title = title;
         this.eatDate = eatDate;
@@ -49,7 +49,7 @@ public class Diary {
         return title;
     }
 
-    public ZonedDateTime getEatDate() {
+    public LocalDate getEatDate() {
         return eatDate;
     }
 
