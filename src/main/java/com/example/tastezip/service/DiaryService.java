@@ -64,4 +64,26 @@ public class DiaryService {
 
         return diaryResponse;
     }
+
+    @Transactional
+    public void update(
+            Long diaryId,
+            CreateDiaryRequest request
+    ){
+        Diary diary = diaryRepository.findById(diaryId)
+                .orElseThrow(() -> new IllegalArgumentException("diaryId = " + diaryId + " 없는 일기입니다."));
+
+        CreateRestaurantRequest restaurantRequest = request.getRestaurant();
+        Restaurant restaurant = diary.getRestaurant();
+        restaurantService.update(restaurant.getId(),restaurantRequest);
+
+        diary.changeDiaryInfo(
+                request.getTitle(),
+                request.getEatDate(),
+                restaurant,
+                request.getContent(),
+                request.getEvaluation());
+
+        diaryRepository.save(diary);
+    }
 }

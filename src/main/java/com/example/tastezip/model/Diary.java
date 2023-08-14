@@ -41,6 +41,15 @@ public class Diary {
         this.updatedAt = ZonedDateTime.now();
     }
 
+    public void changeDiaryInfo(String title, LocalDate eatDate, Restaurant restaurant, String content, Long evaluation) {
+        this.title = title;
+        this.eatDate = eatDate;
+        this.restaurant = restaurant;
+        this.content = content;
+        this.evaluation = evaluation;
+        this.updatedAt = ZonedDateTime.now();
+    }
+
     public Long getId() {
         return id;
     }

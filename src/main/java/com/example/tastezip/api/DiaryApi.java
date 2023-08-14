@@ -24,8 +24,16 @@ public class DiaryApi {
     @GetMapping("/diaries/{diaryId}")
     public DiaryResponse getDiary(
             @PathVariable Long diaryId
-
     ){
         return diaryService.get(diaryId);
+    }
+
+    @PutMapping("/diaries/{diaryId}")
+    public void editDiary(
+            @PathVariable Long diaryId,
+            @RequestBody CreateDiaryRequest request
+
+    ){
+        diaryService.update(diaryId, request);
     }
 }

@@ -43,4 +43,16 @@ public class RestaurantService {
 
         return restaurantResponse;
     }
+
+    @Transactional
+    public void update(
+            Long restaurantId,
+            CreateRestaurantRequest request
+    ){
+        Restaurant restaurant = restaurantRepository.findById(restaurantId)
+                .orElseThrow(() -> new IllegalArgumentException("없는 레스토랑입니다."));
+
+        restaurant.changeRestaurantInfo(request.getName(), request.getAddress(), request.getImage());
+        restaurantRepository.save(restaurant);
+    }
 }
