@@ -2,9 +2,11 @@ package com.example.tastezip.service;
 
 
 import com.example.tastezip.api.request.CreateRestaurantRequest;
+import com.example.tastezip.api.response.RestaurantResponse;
 import com.example.tastezip.model.Restaurant;
 import com.example.tastezip.repository.RestaurantRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class RestaurantService {
@@ -15,6 +17,7 @@ public class RestaurantService {
         this.restaurantRepository = restaurantRepository;
     }
 
+    @Transactional
     public Restaurant create(
             CreateRestaurantRequest request
     ){
@@ -23,5 +26,21 @@ public class RestaurantService {
         Restaurant restaurant = new Restaurant(request.getName(), request.getAddress(), request.getImage());
         restaurantRepository.save(restaurant);
         return restaurant;
+    }
+
+    @Transactional(readOnly = true)
+    public RestaurantResponse get(
+            Long restaurantId
+    ){
+        Restaurant restaurant = restaurantRepository.findById(restaurantId)
+                .orElseThrow(() -> new IllegalArgumentException("없는 레스토랑입니다."));
+
+        RestaurantResponse restaurantResponse = new RestaurantResponse(
+                restaurant.getName(),
+                restaurant.getAddress(),
+                restaurant.getImage()
+        );
+
+        return restaurantResponse;
     }
 }
