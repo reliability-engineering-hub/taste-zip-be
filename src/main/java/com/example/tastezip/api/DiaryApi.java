@@ -36,4 +36,12 @@ public class DiaryApi {
     ){
         diaryService.update(diaryId, request);
     }
+
+    @DeleteMapping("/diaries/{diaryId}")
+    public void deleteDiary(
+            @PathVariable Long diaryId
+
+    ){
+        diaryService.delete(diaryId);
+    }
 }

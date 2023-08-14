@@ -86,4 +86,18 @@ public class DiaryService {
 
         diaryRepository.save(diary);
     }
+
+    @Transactional
+    public void delete(
+            Long diaryId
+    ){
+        Diary diary = diaryRepository.findById(diaryId)
+                .orElseThrow(() -> new IllegalArgumentException("없는 일기입니다."));
+
+        Long restaurantId = diary.getRestaurant().getId();
+
+        diaryRepository.deleteById(diary.getId());
+
+        restaurantService.delete(restaurantId);
+    }
 }

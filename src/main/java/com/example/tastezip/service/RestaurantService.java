@@ -55,4 +55,14 @@ public class RestaurantService {
         restaurant.changeRestaurantInfo(request.getName(), request.getAddress(), request.getImage());
         restaurantRepository.save(restaurant);
     }
+
+    @Transactional
+    public void delete(
+            Long restaurantId
+    ){
+        Restaurant restaurant = restaurantRepository.findById(restaurantId)
+                .orElseThrow(() -> new IllegalArgumentException("없는 레스토랑입니다."));
+
+        restaurantRepository.deleteById(restaurantId);
+    }
 }
