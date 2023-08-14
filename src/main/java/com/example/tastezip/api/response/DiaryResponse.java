@@ -10,7 +10,6 @@ public class DiaryResponse {
 
     private LocalDate eatDate;
 
-    @NotNull
     private RestaurantResponse restaurant;
 
     private String content;
