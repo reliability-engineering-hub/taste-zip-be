@@ -8,6 +8,8 @@ import com.example.tastezip.repository.RestaurantRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Service
 public class RestaurantService {
 
@@ -28,6 +30,7 @@ public class RestaurantService {
         return restaurant;
     }
 
+    // readonly의 의미 - 영속성 컨텍스트와 관련 있음..
     @Transactional(readOnly = true)
     public RestaurantResponse get(
             Long restaurantId
@@ -53,7 +56,6 @@ public class RestaurantService {
                 .orElseThrow(() -> new IllegalArgumentException("없는 레스토랑입니다."));
 
         restaurant.changeRestaurantInfo(request.getName(), request.getAddress(), request.getImage());
-        restaurantRepository.save(restaurant);
     }
 
     @Transactional

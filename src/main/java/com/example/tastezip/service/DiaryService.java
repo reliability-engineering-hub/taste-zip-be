@@ -25,7 +25,7 @@ public class DiaryService {
     public DiaryService(
             DiaryRepository diaryRepository,
             RestaurantService restaurantService
-    ){
+    ) {
         this.diaryRepository = diaryRepository;
         this.restaurantService = restaurantService;
     }
@@ -33,7 +33,7 @@ public class DiaryService {
     @Transactional
     public Diary create(
             CreateDiaryRequest request
-    ){
+    ) {
         Restaurant restaurant = restaurantService.create(request.getRestaurant());
 
         Diary diary = new Diary(request.getTitle(), request.getEatDate(), restaurant, request.getContent(), request.getEvaluation());
@@ -44,10 +44,11 @@ public class DiaryService {
     @Transactional(readOnly = true)
     public DiaryResponse get(
             Long diaryId
-    ){
+    ) {
         Diary diary = diaryRepository.findById(diaryId)
                 .orElseThrow(() -> new IllegalArgumentException("없는 일기입니다."));
 
+        // transaction script
         Restaurant restaurant = diary.getRestaurant();
         RestaurantResponse restaurantResponse =
                 new RestaurantResponse(
@@ -72,13 +73,13 @@ public class DiaryService {
     public void update(
             Long diaryId,
             CreateDiaryRequest request
-    ){
+    ) {
         Diary diary = diaryRepository.findById(diaryId)
                 .orElseThrow(() -> new IllegalArgumentException("diaryId = " + diaryId + " 없는 일기입니다."));
 
         CreateRestaurantRequest restaurantRequest = request.getRestaurant();
         Restaurant restaurant = diary.getRestaurant();
-        restaurantService.update(restaurant.getId(),restaurantRequest);
+        restaurantService.update(restaurant.getId(), restaurantRequest);
 
         diary.changeDiaryInfo(
                 request.getTitle(),
@@ -86,27 +87,25 @@ public class DiaryService {
                 restaurant,
                 request.getContent(),
                 request.getEvaluation());
-
-        diaryRepository.save(diary);
     }
 
     @Transactional
     public void delete(
             Long diaryId
-    ){
+    ) {
         Diary diary = diaryRepository.findById(diaryId)
                 .orElseThrow(() -> new IllegalArgumentException("없는 일기입니다."));
 
-        Long restaurantId = diary.getRestaurant().getId();
-
         diaryRepository.deleteById(diary.getId());
-
-        restaurantService.delete(restaurantId);
     }
 
-    public PageResponse<Diary> findAll(Pageable pageable){
-        Page<Diary> page = diaryRepository.findAll(pageable);
-        PageResponse<Diary> pageResponse = new PageResponse<>(page.getTotalElements(), page.getNumber(), page.getSize(), page.getContent());
+    public PageResponse<Diary> findAll(Pageable pageable) {
+        Page<Diary> diaries = diaryRepository.findAll(pageable);
+        PageResponse<Diary> pageResponse = new PageResponse<>(
+                diaries.getTotalElements(),
+                diaries.getNumber(),
+                diaries.getSize(),
+                diaries.getContent());
 
         return pageResponse;
     }
