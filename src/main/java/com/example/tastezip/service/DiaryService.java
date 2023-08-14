@@ -5,10 +5,13 @@ import com.example.tastezip.api.request.CreateDiaryRequest;
 import com.example.tastezip.api.request.CreateRestaurantRequest;
 import com.example.tastezip.api.response.DiaryResponse;
 import com.example.tastezip.api.response.RestaurantResponse;
+import com.example.tastezip.global.model.PageResponse;
 import com.example.tastezip.model.Diary;
 import com.example.tastezip.model.Restaurant;
 import com.example.tastezip.repository.DiaryRepository;
 import com.example.tastezip.repository.RestaurantRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -99,5 +102,12 @@ public class DiaryService {
         diaryRepository.deleteById(diary.getId());
 
         restaurantService.delete(restaurantId);
+    }
+
+    public PageResponse<Diary> findAll(Pageable pageable){
+        Page<Diary> page = diaryRepository.findAll(pageable);
+        PageResponse<Diary> pageResponse = new PageResponse<>(page.getTotalElements(), page.getNumber(), page.getSize(), page.getContent());
+
+        return pageResponse;
     }
 }
