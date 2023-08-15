@@ -3,8 +3,11 @@ package com.example.tastezip.api;
 import com.example.tastezip.api.request.CreateDiaryRequest;
 import com.example.tastezip.api.response.DiaryResponse;
 import com.example.tastezip.global.model.PageResponse;
+import com.example.tastezip.global.request.SimplePage;
+import com.example.tastezip.global.request.SimplePageRequest;
 import com.example.tastezip.model.Diary;
 import com.example.tastezip.service.DiaryService;
+import jakarta.annotation.Nullable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -38,13 +41,11 @@ public class DiaryApi {
         return new ResponseEntity<>(diaryService.get(diaryId), HttpStatus.OK);
     }
 
-    // TODO : 커스텀 페이지네이션 요청 객체 구현하기
-    @GetMapping("/diaries")
+    @GetMapping ("/diaries")
     public ResponseEntity<PageResponse<Diary>> getAllDiaries(
-            @RequestParam Optional<Integer> page,
-            @RequestParam Optional<Integer> size
+          @ModelAttribute SimplePage simplePage
     ){
-        Pageable pageable = PageRequest.of(page.orElse(0), size.orElse(10));
+        Pageable pageable = simplePage.toPageable();
         return new ResponseEntity<>(diaryService.findAll(pageable), HttpStatus.OK);
     }
 
