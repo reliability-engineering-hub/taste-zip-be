@@ -1,6 +1,7 @@
 package com.example.tastezip.api.response;
 
 import com.example.tastezip.api.request.CreateRestaurantRequest;
+import com.example.tastezip.model.type.Evaluation;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
@@ -14,15 +15,14 @@ public class DiaryResponse {
 
     private String content;
 
-    // TODO : enum으로 refactoring 진행
-    private Long evaluation;
+    private Integer evaluation;
 
-    public DiaryResponse(String title, LocalDate eatDate, RestaurantResponse restaurant, String content, Long evaluation) {
+    public DiaryResponse(String title, LocalDate eatDate, RestaurantResponse restaurant, String content, Evaluation evaluation) {
         this.title = title;
         this.eatDate = eatDate;
         this.restaurant = restaurant;
         this.content = content;
-        this.evaluation = evaluation;
+        this.evaluation = evaluation.getEvalution();
     }
 
     public String getTitle() {
@@ -41,7 +41,7 @@ public class DiaryResponse {
         return content;
     }
 
-    public Long getEvaluation() {
+    public Integer getEvaluation() {
         return evaluation;
     }
 }

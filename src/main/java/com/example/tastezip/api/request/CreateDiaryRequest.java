@@ -1,12 +1,9 @@
 package com.example.tastezip.api.request;
 
-import com.example.tastezip.model.Restaurant;
-import jakarta.persistence.Column;
-import jakarta.persistence.ManyToOne;
+import com.example.tastezip.model.type.Evaluation;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
-import java.time.ZonedDateTime;
 
 public class CreateDiaryRequest {
     private String title;
@@ -18,15 +15,15 @@ public class CreateDiaryRequest {
 
     private String content;
 
-    // TODO : enum으로 refactoring 진행
-    private Long evaluation;
+    @NotNull
+    private Evaluation evaluation;
 
-    public CreateDiaryRequest(String title, LocalDate eatDate, CreateRestaurantRequest restaurant, String content, Long evaluation){
+    public CreateDiaryRequest(String title, LocalDate eatDate, CreateRestaurantRequest restaurant, String content, Integer evaluation){
         this.title = title;
         this.eatDate = eatDate;
         this.restaurant = restaurant;
         this.content = content;
-        this.evaluation = evaluation;
+        this.evaluation = Evaluation.fromInteger(evaluation);
     }
 
     public String getTitle() {
@@ -45,7 +42,7 @@ public class CreateDiaryRequest {
         return content;
     }
 
-    public Long getEvaluation() {
+    public Evaluation getEvaluation() {
         return evaluation;
     }
 }

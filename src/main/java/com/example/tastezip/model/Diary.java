@@ -1,6 +1,7 @@
 package com.example.tastezip.model;
 
 
+import com.example.tastezip.model.type.Evaluation;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
@@ -21,8 +22,7 @@ public class Diary {
     @Column(length = 500)
     private String content;
 
-    // TODO : enum으로 refactoring 진행
-    private Long evaluation;
+    private Evaluation evaluation;
     private ZonedDateTime createdAt;
     private ZonedDateTime updatedAt;
 
@@ -30,7 +30,7 @@ public class Diary {
 
     }
 
-    public Diary(String title, LocalDate eatDate, Restaurant restaurant, String content, Long evaluation) {
+    public Diary(String title, LocalDate eatDate, Restaurant restaurant, String content, Evaluation evaluation) {
         // ID 값에 대해 따로 명시하지 않아도 자동으로 생성되는지 -- GeneratedValue와 연관됨.
         this.title = title;
         this.eatDate = eatDate;
@@ -41,7 +41,7 @@ public class Diary {
         this.updatedAt = ZonedDateTime.now();
     }
 
-    public void changeDiaryInfo(String title, LocalDate eatDate, Restaurant restaurant, String content, Long evaluation) {
+    public void changeDiaryInfo(String title, LocalDate eatDate, Restaurant restaurant, String content, Evaluation evaluation) {
         this.title = title;
         this.eatDate = eatDate;
         this.restaurant = restaurant;
@@ -70,7 +70,7 @@ public class Diary {
         return content;
     }
 
-    public Long getEvaluation() {
+    public Evaluation getEvaluation() {
         return evaluation;
     }
 }
