@@ -36,7 +36,7 @@ public class DiaryService {
     ) {
         Restaurant restaurant = restaurantService.create(request.getRestaurant());
 
-        Diary diary = new Diary(request.getTitle(), request.getEatDate(), restaurant, request.getContent(), request.getEvaluation());
+        Diary diary = new Diary(request.getTitle(), request.getEatDate(), request.getMeal(), restaurant, request.getContent(), request.getEvaluation());
         diaryRepository.save(diary);
         return diary;
     }
@@ -61,6 +61,7 @@ public class DiaryService {
                 new DiaryResponse(
                         diary.getTitle(),
                         diary.getEatDate(),
+                        diary.getMeal(),
                         restaurantResponse,
                         diary.getContent(),
                         diary.getEvaluation()
@@ -84,6 +85,7 @@ public class DiaryService {
         diary.changeDiaryInfo(
                 request.getTitle(),
                 request.getEatDate(),
+                request.getMeal(),
                 restaurant,
                 request.getContent(),
                 request.getEvaluation());

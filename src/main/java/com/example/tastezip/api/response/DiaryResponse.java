@@ -1,9 +1,7 @@
 package com.example.tastezip.api.response;
 
-import com.example.tastezip.api.request.CreateRestaurantRequest;
 import com.example.tastezip.model.type.Evaluation;
-import jakarta.validation.constraints.NotNull;
-
+import com.example.tastezip.model.type.Meal;
 import java.time.LocalDate;
 
 public class DiaryResponse {
@@ -11,15 +9,18 @@ public class DiaryResponse {
 
     private LocalDate eatDate;
 
+    private Integer meal;
+
     private RestaurantResponse restaurant;
 
     private String content;
 
     private Integer evaluation;
 
-    public DiaryResponse(String title, LocalDate eatDate, RestaurantResponse restaurant, String content, Evaluation evaluation) {
+    public DiaryResponse(String title, LocalDate eatDate, Meal meal, RestaurantResponse restaurant, String content, Evaluation evaluation) {
         this.title = title;
         this.eatDate = eatDate;
+        this.meal = meal.getMeal();
         this.restaurant = restaurant;
         this.content = content;
         this.evaluation = evaluation.getEvalution();
@@ -32,6 +33,8 @@ public class DiaryResponse {
     public LocalDate getEatDate() {
         return eatDate;
     }
+
+    public Integer getMeal() { return meal; }
 
     public RestaurantResponse getRestaurant() {
         return restaurant;
