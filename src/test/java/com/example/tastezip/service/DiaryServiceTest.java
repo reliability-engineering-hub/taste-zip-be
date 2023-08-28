@@ -19,8 +19,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 
 // RESTDOCS
@@ -84,5 +86,18 @@ public class DiaryServiceTest {
         // then
         // 재귀적으로 값을 하나씩 비교함.
         Assertions.assertThat(got).usingRecursiveComparison().isEqualTo(want);
+    }
+
+    @DisplayName("[성공] 일기 내용을 삭제한다.")
+    @Test
+    void deleteDiary(){
+        // given
+
+        // when
+        diaryService.delete(diary.getId());
+
+        // then
+        Optional<Diary> got = diaryRepository.findById(diary.getId());
+        assertFalse(got.isPresent()); // null이라면, false 반환 => false인지 확인
     }
 }
